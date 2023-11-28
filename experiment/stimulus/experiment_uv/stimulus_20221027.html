@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UV Experiment(20221027)</title>
+
+    <!-- jQuery の読み込み jsPsychよりも先に読み込むこと。 -->
+    <script src="../js/jquery.min.js"></script>
+    <!-- jsPsych の読み込み -->
+    <script src = "../jspsych/dist/jspsych.js"></script>
+
+    <script src="../jspsych/dist/plugin-html-keyboard-response.js"></script>
+    <script src="../jspsych/dist/plugin-image-keyboard-response.js"></script>
+    <script src="../jspsych/dist/plugin-fullscreen.js"></script>
+    <!--  <script src="../jspsych-6.3.1/plugins/.js"></script> ?? -->
+    <script src="../jspsych-6.3.1/plugins/jspsych-text.js"></script> <!-- ??-->
+    <script src="../jspsych/dist/plugin-preload.js"></script>
+    <link href="../jspsych/dist/jspsych.css" rel="stylesheet" type="text/css"></link>
+    <link rel="stylesheet" href="my_experiment_style.css"></link>
+    
+
+</head>
+<body>
+</body>
+<script>
+//random用のインポート
+
+
+var jsPsych = initJsPsych({
+  on_finish: function() {
+    jsPsych.data.displayData();
+    jsPsych.data.get().localSave('csv','experiment_20221027.csv');
+  }
+});
+
+//   const jsPsych = initJsPsych();
+
+/* initJsPsych.init({
+      on_finish: function() {
+        jsPsych.data.displayData();
+        jsPsych.data.get().localSave('csv','experiment_20211205.csv');
+      }
+  });
+  */
+
+//ランダムに画像を表示するため、ランダムな配列を作成
+
+// 配列の初期化
+var order =  [245,
+ 141,
+ 146,
+ 100,
+ 18,
+ 16,
+ 65,
+ 211,
+ 138,
+ 85,
+ 64,
+ 95,
+ 213,
+ 208,
+ 103,
+ 46,
+ 63,
+ 232,
+ 61,
+ 125,
+ 210,
+ 254,
+ 186,
+ 234,
+ 163,
+ 256,
+ 167,
+ 20,
+ 156,
+ 214,
+ 108,
+ 198,
+ 106,
+ 189,
+ 13,
+ 168,
+ 112,
+ 89,
+ 3,
+ 216,
+ 258,
+ 164,
+ 122,
+ 248,
+ 35,
+ 230,
+ 86,
+ 246,
+ 166,
+ 58,
+ 180,
+ 134,
+ 36,
+ 25,
+ 255,
+ 192,
+ 77,
+ 191,
+ 9,
+ 227,
+ 174,
+ 135,
+ 21,
+ 43,
+ 117,
+ 181,
+ 38,
+ 67,
+ 250,
+ 224,
+ 44,
+ 238,
+ 220,
+ 115,
+ 203,
+ 88,
+ 233,
+ 147,
+ 226,
+ 253,
+ 78,
+ 222,
+ 119,
+ 90,
+ 236,
+ 92,
+ 40,
+ 201,
+ 45,
+ 123,
+ 91,
+ 132,
+ 15,
+ 241,
+ 242,
+ 195,
+ 53,
+ 239,
+ 142,
+ 23,
+ 249,
+ 212,
+ 14,
+ 204,
+ 87,
+ 29,
+ 202,
+ 252,
+ 160,
+ 196,
+ 76,
+ 116,
+ 118,
+ 72,
+ 131,
+ 30,
+ 5,
+ 145,
+ 55,
+ 219,
+ 190,
+ 143,
+ 0,
+ 251,
+ 247,
+ 48,
+ 75,
+ 24,
+ 8,
+ 228,
+ 105,
+ 194,
+ 94,
+ 136,
+ 159,
+ 114,
+ 139,
+ 129,
+ 170,
+ 126,
+ 1,
+ 79,
+ 144,
+ 153,
+ 133,
+ 193,
+ 107,
+ 207,
+ 42,
+ 218,
+ 49,
+ 128,
+ 130,
+ 188,
+ 150,
+ 124,
+ 109,
+ 10,
+ 37,
+ 185,
+ 17,
+ 59,
+ 152,
+ 240,
+ 225,
+ 99,
+ 148,
+ 47,
+ 229,
+ 199,
+ 84,
+ 62,
+ 231,
+ 39,
+ 68,
+ 97,
+ 27,
+ 140,
+ 184,
+ 26,
+ 151,
+ 19,
+ 110,
+ 257,
+ 7,
+ 93,
+ 187,
+ 60,
+ 101,
+ 31,
+ 81,
+ 172,
+ 158,
+ 104,
+ 179,
+ 176,
+ 205,
+ 56,
+ 178,
+ 244,
+ 209,
+ 217,
+ 70,
+ 169,
+ 34,
+ 223,
+ 120,
+ 182,
+ 11,
+ 28,
+ 221,
+ 155,
+ 80,
+ 33,
+ 121,
+ 243,
+ 183,
+ 197,
+ 98,
+ 54,
+ 12,
+ 6,
+ 175,
+ 66,
+ 177,
+ 83,
+ 149,
+ 57,
+ 235,
+ 22,
+ 162,
+ 71,
+ 161,
+ 50,
+ 74,
+ 215,
+ 206,
+ 111,
+ 137,
+ 165,
+ 32,
+ 2,
+ 113,
+ 171,
+ 200,
+ 157,
+ 154,
+ 127,
+ 237,
+ 96,
+ 69,
+ 52,
+ 4,
+ 102,
+ 173,
+ 82,
+ 41,
+ 73,
+ 51];
+
+
+    jsPsych.data.addProperties({ start_time: (new Date()).toISOString() });
+    
+    // start fullscreen mode
+    var fullscreen_open = ({
+      type: jsPsychFullscreen,
+      fullscreen_mode: true
+    });
+
+    var fullscreen_open_stimulus = ({
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: 'This trial will be in fullscreen mode.'
+    });
+    //
+
+    var timeline = [];
+
+    /* preload images */
+    var preload = {
+      type: jsPsychPreload,
+
+      images: [
+            /* 251 robots */
+            '../abot-images_resize/1_jia_jia_robot.jpg', 
+            '../abot-images_resize/2_snap_bot.jpg', 
+            '../abot-images_resize/3_lego-robot-1.jpg', 
+            '../abot-images_resize/4_lego-robot-2.jpg', 
+            '../abot-images_resize/5_mini.jpg', 
+            '../abot-images_resize/6_cb2-humanoid.jpg', 
+            '../abot-images_resize/7_alter-humanoid.jpg', 
+            '../abot-images_resize/8_jibo.jpg', 
+            '../abot-images_resize/9_buddy.jpg', 
+            '../abot-images_resize/10_asimo-humanoid.jpg', 
+            '../abot-images_resize/11_nao-humanoid.jpg', 
+            '../abot-images_resize/12_baxter-industrial.jpg', 
+            '../abot-images_resize/13_riba-ii.jpg', 
+            '../abot-images_resize/14_altair-ez2.jpg', 
+            '../abot-images_resize/15_aimec.jpg', 
+            '../abot-images_resize/16_zenbo.jpg', 
+            '../abot-images_resize/17_kirobo.jpg', 
+            '../abot-images_resize/18_aldebaran-pepper.jpg', 
+            '../abot-images_resize/19_romeo.jpg', 
+            '../abot-images_resize/20_aida-driving-agent.jpg', 
+            '../abot-images_resize/21_darwin-op.jpg', 
+            '../abot-images_resize/22_mobiserv-companion.jpg', 
+            '../abot-images_resize/23_robonaut.jpg', 
+            '../abot-images_resize/24_zeno.jpg', 
+            '../abot-images_resize/25_han.jpg', 
+            '../abot-images_resize/26_albert-hubo.jpg', 
+            '../abot-images_resize/27_poppy.jpg', 
+            '../abot-images_resize/28_telenoid.jpg', 
+            '../abot-images_resize/29_topio.jpg', 
+            '../abot-images_resize/30_discorobo.jpg', 
+            '../abot-images_resize/31_inmoov.jpg', 
+            '../abot-images_resize/32_kismet.jpg', 
+            '../abot-images_resize/33_nexi.jpg', 
+            '../abot-images_resize/34_pino.jpg', 
+            '../abot-images_resize/35_valkyrie.jpg', 
+            '../abot-images_resize/36_atlas.jpg', 
+            '../abot-images_resize/37_mertz.jpg', 
+            '../abot-images_resize/38_eccerobot.jpg', 
+            '../abot-images_resize/39_hiro.jpg', 
+            '../abot-images_resize/40_pr2.jpg', 
+            '../abot-images_resize/41_MiRAE.jpg', 
+            '../abot-images_resize/42_mip2.jpg', 
+            '../abot-images_resize/43_iCat.jpg', 
+            '../abot-images_resize/44_tico.jpg', 
+            '../abot-images_resize/45_sota.jpg', 
+            '../abot-images_resize/46_domo.jpg', 
+            '../abot-images_resize/47_furhat.jpg', 
+            '../abot-images_resize/48_muu.jpg', 
+            '../abot-images_resize/49_Emuu.jpg', 
+            '../abot-images_resize/50_maggie.jpg', 
+            '../abot-images_resize/51_robothespian.jpg', 
+            '../abot-images_resize/52_aryan.jpg', 
+            '../abot-images_resize/53_emys.jpg', 
+            '../abot-images_resize/54_qrio.jpg', 
+            '../abot-images_resize/55_irobi-q.jpg', 
+            '../abot-images_resize/56_papero.jpg', 
+            '../abot-images_resize/57_iCub.jpg', 
+            '../abot-images_resize/58_Genie.jpg', 
+            '../abot-images_resize/59_Anette.jpg', 
+            '../abot-images_resize/60_Echo-Plus.jpg', 
+            '../abot-images_resize/61_BINA48.jpg', 
+            '../abot-images_resize/62_Sophia.jpg', 
+            '../abot-images_resize/63_Igus.jpg', 
+            '../abot-images_resize/64_Cosero.jpg', 
+            '../abot-images_resize/65_Flobi.jpg', 
+            '../abot-images_resize/66_TJ-Bot.jpg', 
+            '../abot-images_resize/67_DURUS.jpg', 
+            '../abot-images_resize/68_SociBot-mini.jpg', 
+            '../abot-images_resize/69_SociBot-Kiosk.jpg', 
+            '../abot-images_resize/70_Cozmo.jpg', 
+            '../abot-images_resize/71_GoCart.jpg', 
+            '../abot-images_resize/72_Jimmy.jpg', 
+            '../abot-images_resize/73_HRP-2VZ.jpg', 
+            '../abot-images_resize/74_Kuri.jpg', 
+            '../abot-images_resize/75_Big-i.jpg', 
+            '../abot-images_resize/76_murata-girl.jpg', 
+            '../abot-images_resize/77_TALOS.jpg', 
+            '../abot-images_resize/78_TIAGo.jpg', 
+            '../abot-images_resize/79_REEM.jpg', 
+            '../abot-images_resize/80_REEM-C-2.jpg', 
+            '../abot-images_resize/81_Robovie-mR2.jpg', 
+            '../abot-images_resize/82_Franka-Emika.jpg', 
+            '../abot-images_resize/83_Sawyer.jpg', 
+            '../abot-images_resize/84_hub.jpg', 
+            '../abot-images_resize/85_Mykie.jpg', 
+            '../abot-images_resize/86_Talk-Torque.jpg', 
+            '../abot-images_resize/87_Animated-SmartPhone-1.jpg', 
+            '../abot-images_resize/88_manoi-pf01.jpg', 
+            '../abot-images_resize/89_Gemini.jpg', 
+            '../abot-images_resize/90_manoi-AT01.jpg', 
+            '../abot-images_resize/91_HRP-4.jpg', 
+            '../abot-images_resize/92_Kobian-1.jpg', 
+            '../abot-images_resize/93_Hitachi-Emiew.jpg', 
+            '../abot-images_resize/94_MILLENNIA.jpg', 
+            '../abot-images_resize/95_JD-Humanoid.jpg', 
+            '../abot-images_resize/96_Felix.jpg', 
+            '../abot-images_resize/97_Flash.jpg', 
+            '../abot-images_resize/98_Personal-Robot.jpg', 
+            '../abot-images_resize/99_AnyBot.jpg', 
+            '../abot-images_resize/100_H5.jpg', 
+            '../abot-images_resize/101_HOSPI-Rimo.jpg', 
+            '../abot-images_resize/102_Nextage.jpg', 
+            '../abot-images_resize/103_DRU.jpg', 
+            '../abot-images_resize/104_S-one.jpg', 
+            '../abot-images_resize/105_Surena-III.jpg', 
+            '../abot-images_resize/106_AcYut-7.jpg', 
+            '../abot-images_resize/107_Aila.jpg', 
+            '../abot-images_resize/108_Ami.jpg', 
+            '../abot-images_resize/109_MoRO.jpg', 
+            '../abot-images_resize/110_Ewya.jpg', 
+            '../abot-images_resize/111_5e-Nanny-Bot.jpg', 
+            '../abot-images_resize/112_Leka.jpg', 
+            '../abot-images_resize/113_Cuti.jpg', 
+            '../abot-images_resize/114_Heasy.jpg', 
+            '../abot-images_resize/115_Yumi-TrueSmart.jpg', 
+            '../abot-images_resize/116_Tapia.jpg', 
+            '../abot-images_resize/117_Posy.jpg', 
+            '../abot-images_resize/118_Furo-S.jpg', 
+            '../abot-images_resize/119_Furo-i-Home.jpg', 
+            '../abot-images_resize/120_Jimmy.jpg', 
+            '../abot-images_resize/121_Mung.jpg', 
+            '../abot-images_resize/122_Mabu.jpg', 
+            '../abot-images_resize/123_Mitra.jpg', 
+            '../abot-images_resize/124_quori.jpg', 
+            '../abot-images_resize/125_Babyloid.jpg', 
+            '../abot-images_resize/126_Ira.jpg', 
+            '../abot-images_resize/127_Cassie.jpg', 
+            '../abot-images_resize/128_R3-1.jpg', 
+            '../abot-images_resize/129_Troy2.jpg', 
+            '../abot-images_resize/130_Bandit.jpg', 
+            '../abot-images_resize/131_sparki.jpg', 
+            '../abot-images_resize/132_Maki.jpg', 
+            '../abot-images_resize/133_HomeMate.jpg', 
+            '../abot-images_resize/134_eyePi.jpg', 
+            '../abot-images_resize/135_reeti.jpg', 
+            '../abot-images_resize/136_Hitchbot.jpg', 
+            '../abot-images_resize/137_Roboware-E3.jpg', 
+            '../abot-images_resize/138_Reddy.jpg', 
+            '../abot-images_resize/139_Autom.jpg', 
+            '../abot-images_resize/140_Snackbot.jpg', 
+            '../abot-images_resize/141_Amigo.jpg', 
+            '../abot-images_resize/142_Hermes.jpg', 
+            '../abot-images_resize/143_ARMAR-3.jpg', 
+            '../abot-images_resize/144_loomo.jpg', 
+            '../abot-images_resize/145_Eva.jpg', 
+            '../abot-images_resize/146_Robohon.jpg', 
+            '../abot-images_resize/147_Meka-1.jpg', 
+            '../abot-images_resize/148_Cody.jpg', 
+            '../abot-images_resize/149_TellUBee.jpg', 
+            '../abot-images_resize/150_Milo.jpg', 
+            '../abot-images_resize/151_Topio-Dio.jpg', 
+            '../abot-images_resize/152_Twendy-One.jpg', 
+            '../abot-images_resize/153_Wakamaru.jpg', 
+            '../abot-images_resize/154_HERB.jpg', 
+            '../abot-images_resize/155_E-Nuvo.jpg', 
+            '../abot-images_resize/156_Robina.jpg', 
+            '../abot-images_resize/157_Humanoid-2.jpg', 
+            '../abot-images_resize/158_Mahru.jpg', 
+            '../abot-images_resize/159_Manav.jpg', 
+            '../abot-images_resize/160_musio.jpg', 
+            '../abot-images_resize/161_Roboy.jpg', 
+            '../abot-images_resize/162_Hoap-3.jpg', 
+            '../abot-images_resize/163_Rolling-Justin.jpg', 
+            '../abot-images_resize/164_Aido-1.jpg', 
+            '../abot-images_resize/165_Roboray.jpg', 
+            '../abot-images_resize/166_Ciros.jpg', 
+            '../abot-images_resize/167_Kibo.jpg', 
+            '../abot-images_resize/168_Silbot-3.jpg', 
+            '../abot-images_resize/169_Sociable-Trashbox.jpg', 
+            '../abot-images_resize/170_Ethon2.jpg', 
+            '../abot-images_resize/171_Mero.jpg', 
+            '../abot-images_resize/172_qihan-sanbot.jpg', 
+            '../abot-images_resize/173_UR3.jpg', 
+            '../abot-images_resize/174_PadBot.jpg', 
+            '../abot-images_resize/175_Luna.jpg', 
+            '../abot-images_resize/176_sphero.jpg', 
+            '../abot-images_resize/177_Ollie.jpg', 
+            '../abot-images_resize/178_Meccano-MeccaNoid.jpg', 
+            '../abot-images_resize/179_tipron.jpg', 
+            '../abot-images_resize/180_Lego-boost.jpg', 
+            '../abot-images_resize/181_Keecker.jpg', 
+            '../abot-images_resize/182_Clocky.jpg', 
+            '../abot-images_resize/183_ARM-S.jpg', 
+            '../abot-images_resize/184_Aero-Drc.jpg', 
+            '../abot-images_resize/185_HRP2+.jpg', 
+            '../abot-images_resize/186_Metal-Rebel.jpg', 
+            '../abot-images_resize/187_THOR.jpg', 
+            '../abot-images_resize/188_DRC-Hubo.jpg', 
+            '../abot-images_resize/189_Xing-Tian.jpg', 
+            '../abot-images_resize/190_Running-Man.jpg', 
+            '../abot-images_resize/191_HRP2-Promet.jpg', 
+            '../abot-images_resize/192_Johnny-Five.jpg', 
+            '../abot-images_resize/193_Walk-Man.jpg', 
+            '../abot-images_resize/194_Escher.jpg', 
+            '../abot-images_resize/195_Kodomoroid.jpg', 
+            '../abot-images_resize/196_Ontonaroid.jpg', 
+            '../abot-images_resize/197_Erica.jpg', 
+            '../abot-images_resize/198_Geminoid-H1-4.jpg', 
+            '../abot-images_resize/199_Int-Ball.jpg', 
+            '../abot-images_resize/200_Surena-Mini.jpg', 
+            '../abot-images_resize/201_pris.jpg', 
+            '../abot-images_resize/202_speech_buddy.jpg', 
+            '../abot-images_resize/203_geebot.jpg', 
+            '../abot-images_resize/204_chico.jpg', 
+            '../abot-images_resize/205_kaspar.jpg', 
+            '../abot-images_resize/206_pillo.jpg', 
+            '../abot-images_resize/207_otto.jpg', 
+            '../abot-images_resize/208_ipal.jpg', 
+            '../abot-images_resize/209_commu.jpg', 
+            '../abot-images_resize/210_platina.jpg', 
+            '../abot-images_resize/211_Ibuki.jpg', 
+            '../abot-images_resize/212_synchy.jpg', 
+            '../abot-images_resize/213_slate.jpg', 
+            '../abot-images_resize/214_qtrobot.jpg', 
+            '../abot-images_resize/215_av1.jpg', 
+            '../abot-images_resize/216_hsrmobile.jpg', 
+            '../abot-images_resize/217_thr3.jpg', 
+            '../abot-images_resize/218_topo.jpg', 
+            '../abot-images_resize/219_misty.jpg', 
+            '../abot-images_resize/220_aerialbipedal.jpg', 
+            '../abot-images_resize/221_haru.jpg', 
+            '../abot-images_resize/222_toro.jpg', 
+            '../abot-images_resize/223_moxi.jpg', 
+            '../abot-images_resize/224_waseda.jpg', 
+            '../abot-images_resize/225_telexistence.jpg', 
+            '../abot-images_resize/226_edgar.jpg', 
+            '../abot-images_resize/227_airbot.jpg', 
+            '../abot-images_resize/228_kengoro.jpg', 
+            '../abot-images_resize/229_myon.jpg', 
+            '../abot-images_resize/230_centaur.jpg', 
+            '../abot-images_resize/231_3e_a18.jpg', 
+            '../abot-images_resize/232_3e_c18.jpg', 
+            '../abot-images_resize/233_aeolus.jpg', 
+            '../abot-images_resize/234_walker.jpg', 
+            '../abot-images_resize/235_lynx.jpg', 
+            '../abot-images_resize/236_cruzr.jpg', 
+            '../abot-images_resize/237_sanbot_max.jpg', 
+            '../abot-images_resize/238_sanbot_nano.jpg', 
+            '../abot-images_resize/239_nadine.jpg', 
+            '../abot-images_resize/240_padbot3.jpg', 
+            '../abot-images_resize/241_stevie.jpg', 
+            '../abot-images_resize/242_gazeroid.jpg', 
+            '../abot-images_resize/243_jackrabbit2.jpg', 
+            '../abot-images_resize/244_seer.jpg', 
+            '../abot-images_resize/245_yumi.jpg', 
+            '../abot-images_resize/246_adata.jpg', 
+            '../abot-images_resize/247_careobot.jpg', 
+            '../abot-images_resize/248_charli.jpg', 
+            '../abot-images_resize/249_ibotn.jpg', 
+            '../abot-images_resize/250_kojiro.jpg', 
+            '../abot-images_resize/251_olivia.jpg',  
+
+            /* 8 people */
+            '../human-images_resize/image_F_1.jpg', 
+            '../human-images_resize/image_F_2.jpg', 
+            '../human-images_resize/image_F_3.jpg', 
+            '../human-images_resize/image_F_4.jpg', 
+            '../human-images_resize/image_M_1.jpg', 
+            '../human-images_resize/image_M_2.jpg', 
+            '../human-images_resize/image_M_3.jpg', 
+            '../human-images_resize/image_M_4.jpg',
+
+            /* white block (for photoditector) */
+            '../img/img_white.jpg']
+    };
+
+
+
+timeline.push(preload);
+
+    var welcome_block = {
+    type: jsPsychHtmlKeyboardResponse,
+
+    stimulus: "Welcome to the experiment. Press ' Y ' key to go to the next."
+    };
+
+timeline.push(welcome_block);
+
+    var instructions = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+    <p>Start the experiment.</p>
+    `,
+    post_trial_gap: 2000
+
+    };
+
+timeline.push(instructions);
+
+
+
+    /* ALL images　251robots + 8people */
+    var test_stimuli = [
+    
+    /* 251 robots */
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/1_jia_jia_robot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/2_snap_bot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/3_lego-robot-1.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/4_lego-robot-2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/5_mini.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/6_cb2-humanoid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/7_alter-humanoid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/8_jibo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/9_buddy.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/10_asimo-humanoid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/11_nao-humanoid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/12_baxter-industrial.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/13_riba-ii.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/14_altair-ez2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/15_aimec.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/16_zenbo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/17_kirobo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/18_aldebaran-pepper.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/19_romeo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/20_aida-driving-agent.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/21_darwin-op.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/22_mobiserv-companion.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/23_robonaut.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/24_zeno.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/25_han.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/26_albert-hubo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/27_poppy.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/28_telenoid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/29_topio.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/30_discorobo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/31_inmoov.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/32_kismet.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/33_nexi.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/34_pino.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/35_valkyrie.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/36_atlas.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/37_mertz.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/38_eccerobot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/39_hiro.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/40_pr2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/41_MiRAE.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/42_mip2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/43_iCat.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/44_tico.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/45_sota.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/46_domo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/47_furhat.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/48_muu.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/49_Emuu.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/50_maggie.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/51_robothespian.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/52_aryan.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/53_emys.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/54_qrio.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/55_irobi-q.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/56_papero.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/57_iCub.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/58_Genie.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/59_Anette.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/60_Echo-Plus.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/61_BINA48.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/62_Sophia.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/63_Igus.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/64_Cosero.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/65_Flobi.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/66_TJ-Bot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/67_DURUS.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/68_SociBot-mini.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/69_SociBot-Kiosk.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/70_Cozmo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/71_GoCart.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/72_Jimmy.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/73_HRP-2VZ.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/74_Kuri.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/75_Big-i.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/76_murata-girl.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/77_TALOS.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/78_TIAGo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/79_REEM.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/80_REEM-C-2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/81_Robovie-mR2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/82_Franka-Emika.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/83_Sawyer.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/84_hub.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/85_Mykie.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/86_Talk-Torque.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/87_Animated-SmartPhone-1.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/88_manoi-pf01.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/89_Gemini.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/90_manoi-AT01.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/91_HRP-4.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/92_Kobian-1.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/93_Hitachi-Emiew.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/94_MILLENNIA.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/95_JD-Humanoid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/96_Felix.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/97_Flash.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/98_Personal-Robot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/99_AnyBot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/100_H5.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/101_HOSPI-Rimo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/102_Nextage.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/103_DRU.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/104_S-one.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/105_Surena-III.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/106_AcYut-7.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/107_Aila.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/108_Ami.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/109_MoRO.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/110_Ewya.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/111_5e-Nanny-Bot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/112_Leka.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/113_Cuti.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/114_Heasy.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/115_Yumi-TrueSmart.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/116_Tapia.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/117_Posy.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/118_Furo-S.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/119_Furo-i-Home.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/120_Jimmy.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/121_Mung.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/122_Mabu.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/123_Mitra.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/124_quori.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/125_Babyloid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/126_Ira.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/127_Cassie.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/128_R3-1.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/129_Troy2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/130_Bandit.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/131_sparki.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/132_Maki.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/133_HomeMate.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/134_eyePi.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/135_reeti.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/136_Hitchbot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/137_Roboware-E3.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/138_Reddy.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/139_Autom.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/140_Snackbot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/141_Amigo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/142_Hermes.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/143_ARMAR-3.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/144_loomo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/145_Eva.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/146_Robohon.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/147_Meka-1.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/148_Cody.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/149_TellUBee.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/150_Milo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/151_Topio-Dio.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/152_Twendy-One.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/153_Wakamaru.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/154_HERB.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/155_E-Nuvo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/156_Robina.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/157_Humanoid-2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/158_Mahru.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/159_Manav.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/160_musio.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/161_Roboy.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/162_Hoap-3.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/163_Rolling-Justin.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/164_Aido-1.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/165_Roboray.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/166_Ciros.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/167_Kibo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/168_Silbot-3.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/169_Sociable-Trashbox.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/170_Ethon2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/171_Mero.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/172_qihan-sanbot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/173_UR3.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/174_PadBot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/175_Luna.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/176_sphero.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/177_Ollie.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/178_Meccano-MeccaNoid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/179_tipron.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/180_Lego-boost.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/181_Keecker.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/182_Clocky.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/183_ARM-S.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/184_Aero-Drc.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/185_HRP2+.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/186_Metal-Rebel.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/187_THOR.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/188_DRC-Hubo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/189_Xing-Tian.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/190_Running-Man.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/191_HRP2-Promet.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/192_Johnny-Five.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/193_Walk-Man.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/194_Escher.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/195_Kodomoroid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/196_Ontonaroid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/197_Erica.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/198_Geminoid-H1-4.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/199_Int-Ball.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/200_Surena-Mini.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/201_pris.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/202_speech_buddy.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/203_geebot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/204_chico.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/205_kaspar.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/206_pillo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/207_otto.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/208_ipal.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/209_commu.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/210_platina.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/211_Ibuki.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/212_synchy.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/213_slate.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/214_qtrobot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/215_av1.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/216_hsrmobile.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/217_thr3.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/218_topo.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/219_misty.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/220_aerialbipedal.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/221_haru.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/222_toro.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/223_moxi.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/224_waseda.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/225_telexistence.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/226_edgar.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/227_airbot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/228_kengoro.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/229_myon.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/230_centaur.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/231_3e_a18.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/232_3e_c18.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/233_aeolus.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/234_walker.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/235_lynx.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/236_cruzr.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/237_sanbot_max.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/238_sanbot_nano.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/239_nadine.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/240_padbot3.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/241_stevie.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/242_gazeroid.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/243_jackrabbit2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/244_seer.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/245_yumi.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/246_adata.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/247_careobot.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/248_charli.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/249_ibotn.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/250_kojiro.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../abot-images_resize/251_olivia.jpg alt =''></img></div>`}, 
+
+    /* 8 people */
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../human-images_resize/image_F_1.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../human-images_resize/image_F_2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../human-images_resize/image_F_3.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../human-images_resize/image_F_4.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../human-images_resize/image_M_1.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../human-images_resize/image_M_2.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../human-images_resize/image_M_3.jpg alt =''></img></div>`},
+    { stimulus: `<div class='full-width-height', style='float: left;'><img src='../img/img_white.jpg'></img></div>
+    <div><img src=../human-images_resize/image_M_4.jpg alt =''></img></div>`}
+    
+
+    ];
+
+    /* fixation 1000ms, test 400ms */
+    
+    var fixation = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<body style="background-color: black;">
+        <div style="font-size:100px; color:#ffffff;">+</div>
+        </body>`,
+      
+    choices: "ALL_KEYS",
+    trial_duration: 1000
+
+    /*trial_duration: function(){
+      return jsPsych.randomization.sampleWithoutReplacement([250, 500, 750, 1000, 1250, 1500, 1750, 2000], 1)[0];
+      }
+    */
+    /*                function(){
+        return jsPsych.randomization.randomInt(1200);
+      }
+    */
+
+    }
+
+    var test = {
+    type: jsPsychHtmlKeyboardResponse,
+    choices: 'ALL_KEYS',
+    stimulus: jsPsych.timelineVariable('stimulus'),
+    trial_duration: 1000,
+    stimulus_duration: 1000,
+    response_ends_trial: false
+    
+    }
+
+    var test_procedure = {
+    timeline: [fixation, test],
+    timeline_variables: test_stimuli,
+    //randomize_order: true,
+    sample: {
+      type: 'custom',
+      fn: function(t){
+        return order
+      }
+    }
+
+    }
+
+timeline.push(test_procedure);
+
+// exit fullscreen mode
+var fullscreen_close = ({
+  type: jsPsychFullscreen,
+  fullscreen_mode: false
+});
+
+// timeline.push(fullscreen_close);
+
+var fullscreen_close_stimulus = ({
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: 'This trial will NOT be in fullscreen mode.'
+});
+
+// timeline.push(fullscreen_close_stimulus);
+
+//
+    /* start the experiment
+    jsPsych.init({
+    timeline: timeline
+    });
+    */
+
+    /* display the data */
+
+var experiment = {
+  type: jsPsychImageKeyboardResponse,
+  choices: ['y', 'e', 'p', 'r'], 
+  /*prompt: '<p>Press "y" to Continue. Press "e" to end this node of the experiment.</p>', */
+  on_finish: function(data) {
+    if (jsPsych.pluginAPI.compareKeys(data.response, 'e')) {
+      jsPsych.endCurrentTimeline();
+    };
+
+    if(jsPsych.pluginAPI.compareKeys(data.response, "p")) { 
+      jsPsych.pauseExperiment();
+      //setTimeout(jsPsych.resumeExperiment, 30000);
+      jsPsych.pluginAPI.getKeyboardResponse({
+      callback_function:jsPsych.resumeExperiment,
+      valid_responses: "ALL_KEYS",
+      }
+      );
+    };
+  
+
+  },
+  timeline: timeline
+}
+
+jsPsych.run([fullscreen_open, fullscreen_open_stimulus, experiment, fullscreen_close, fullscreen_close_stimulus]);
+
+/*
+jsPsych.init({
+  
+  timeline: [timeline]  
+  on_finish: function() {
+    jsPsych.data.displayData();
+    jsPsych.data.get().localSave('csv','experiment_20211202.csv');
+  }
+
+});
+*/
+
+
+</script>
+
+</html>
